@@ -31,13 +31,4 @@ jobs:
           echo "构建时替换环境变量"
           sed -i "s|__API_KEY__|${API_KEY}|g" js/main.js
           sed -i "s|__API_ENDPOINT__|${API_ENDPOINT}|g" js/main.js
-          echo "替换API_KEY..."
-          sed -i "s|__API_KEY__|***|g" js/main.js
-
-      - name: Build project
-        run: |
-          echo "构建时替换环境变量"
-          sed -i "s|__API_KEY__|${API_KEY}|g" js/main.js
-          sed -i "s|__API_ENDPOINT__|${API_ENDPOINT}|g" js/main.js
-          echo "替换API_KEY..."
-          sed -i "s|__API_KEY__|***|g" js/main.js
+          echo "环境变量替换完成"

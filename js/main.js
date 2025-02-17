@@ -86,6 +86,10 @@ const HealthAdvisor = {
             });
             
             const data = await response.json();
+            if (!response.ok) {
+                console.error('API Error:', data);
+                return `服务暂时不可用（错误代码：${response.status}）`;
+            }
             return data.choices[0].message.content;
         } catch (error) {
             return '暂时无法获取建议，请稍后再试';
