@@ -50,6 +50,10 @@ const BMICalculator = {
     }
 };
 
+// 安全写法（使用占位符）
+const apiKey = '__API_KEY__';
+const apiEndpoint = '__API_ENDPOINT__';
+
 // 在BMICalculator模块后添加API模块
 const HealthAdvisor = {
     async getAdvice(bmi, height, weight) {
@@ -67,16 +71,16 @@ const HealthAdvisor = {
                 5. 若干注意事项
 
 
-                开头不要写“好的”，用Markdown格式，使用空行分离主次段落要点，重点要加粗，避免使用某些医疗建议术语，回答不能太机器要真实，1200字左右`
+                开头不要写"好的"，用Markdown格式，使用空行分离主次段落要点，重点要加粗，避免使用某些医疗建议术语，回答不能太机器要真实，1200字左右`
             }]
         };
 
         try {
-            const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            const response = await fetch(`${apiEndpoint}/chat/completions`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer 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`
+                    'Authorization': `Bearer ${apiKey}`
                 },
                 body: JSON.stringify(payload)
             });
