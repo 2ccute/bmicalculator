@@ -26,13 +26,16 @@ jobs:
           echo "构建时替换环境变量"
           sed -i "s|__API_KEY__|${API_KEY}|g" js/main.js
           sed -i "s|__API_ENDPOINT__|${API_ENDPOINT}|g" js/main.js
-          echo "环境变量替换完成"
-
+          mkdir -p build
+          cp -r *.html css js build/
+          echo "查看 build 目录内容："
+          ls -la build
+          
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
-          path: ./build
+          path: build/
           
       - name: Deploy
         uses: actions/deploy-pages@v2
