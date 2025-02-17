@@ -76,7 +76,7 @@ const HealthAdvisor = {
         };
 
         try {
-            const response = await fetch(`${apiEndpoint}/chat/completions`, {
+            const response = await fetch(`${apiEndpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
