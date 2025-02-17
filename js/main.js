@@ -53,8 +53,8 @@ const BMICalculator = {
 
 
 // 安全写法（使用占位符）
-const apiKey = 'YOUR_ACTUAL_API_KEY'; //  替换为你的 API 密钥
-const apiEndpoint = 'YOUR_API_ENDPOINT'; //  替换为你的 API 接口地址
+const apiKey = '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'; //  替换为你的 API 密钥
+const apiEndpoint = 'https://openrouter.ai/api/v1/chat/completions'; //  替换为你的 API 接口地址
 
 
 // 在BMICalculator模块后添加API模块
@@ -63,7 +63,7 @@ const HealthAdvisor = {
         const payload = {
             model: "google/gemini-2.0-flash-lite-preview-02-05:free",
             messages: [{
-                role: "system",
+                role: "user",
                 content: `你是一位资深营养师，请用中文为BMI ${bmi}（身高${height}cm，体重${weight}kg）的用户提供以下内容的专业建议：
 
 
@@ -78,9 +78,8 @@ const HealthAdvisor = {
             }]
         };
 
-
         try {
-            const response = await fetch(`${apiEndpoint}`, {
+            const response = await fetch(apiEndpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,11 +91,12 @@ const HealthAdvisor = {
             const data = await response.json();
             if (!response.ok) {
                 console.error('API Error:', data);
-                return `服务暂时不可用（错误代码：${response.status}）`;
+                return `请求失败，状态码：${response.status}`;
             }
             return data.choices[0].message.content;
         } catch (error) {
-            return '暂时无法获取建议，请稍后再试';
+            console.error('请求错误:', error);
+            return '请求失败，请检查网络连接';
         }
     }
 };
