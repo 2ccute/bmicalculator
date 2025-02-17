@@ -36,6 +36,7 @@ const articles = [
     },
 ];
 
+
 // BMI 计算模块
 const BMICalculator = {
     calculate: (height, weight) => {
@@ -50,9 +51,11 @@ const BMICalculator = {
     }
 };
 
+
 // 安全写法（使用占位符）
 const apiKey = '__API_KEY__';
 const apiEndpoint = '__API_ENDPOINT__';
+
 
 // 在BMICalculator模块后添加API模块
 const HealthAdvisor = {
@@ -75,6 +78,7 @@ const HealthAdvisor = {
             }]
         };
 
+
         try {
             const response = await fetch(`${apiEndpoint}`, {
                 method: 'POST',
@@ -84,7 +88,7 @@ const HealthAdvisor = {
                 },
                 body: JSON.stringify(payload)
             });
-            
+
             const data = await response.json();
             if (!response.ok) {
                 console.error('API Error:', data);
@@ -96,6 +100,7 @@ const HealthAdvisor = {
         }
     }
 };
+
 
 // 文章管理模块
 const ArticleManager = {
