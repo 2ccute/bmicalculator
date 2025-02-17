@@ -52,12 +52,7 @@ const BMICalculator = {
 };
 
 
-// 安全写法（使用占位符）
-const apiKey = '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'; //  替换为你的 API 密钥
-const apiEndpoint = 'https://openrouter.ai/api/v1/chat/completions'; //  替换为你的 API 接口地址
 
-
-// 在BMICalculator模块后添加API模块
 const HealthAdvisor = {
     async getAdvice(bmi, height, weight) {
         const payload = {
