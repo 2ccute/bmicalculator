@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <!-- 基础元信息 -->
+    <meta charset="UTF-8">  <!-- 设置文档字符编码为UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- 移动端视口适配 -->
+    <title>高级BMI计算器 | 体重指数工具 | 减脂增肌科学知识小站 （附有定制化建议）</title>  <!-- 页面标题 -->
+    <link rel="stylesheet" href="css/style.css">  <!-- 引入样式表 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/marked/5.1.1/marked.min.css">
+</head>
+
+
+<body>
+    
+    <div class="container"> <!-- 整个页面的大容器，像一个装东西的盒子 -->
+
+
+        <!-- 主标题 -->
+        <h1>在线BMI体重指数计算器</h1>
+        
+
+        <!-- 计算器主体部分 -->
+        <div class="calculator">
+
+            <!-- 身高输入组 -->
+            <div class="input-group">
+                <label for="height">身高 (cm):</label>
+                <input type="number" id="height" placeholder="请输入身高">
+            </div>
+            
+            <!-- 体重输入组 -->
+            <div class="input-group">
+                <label for="weight">体重 (kg):</label>
+                <input type="number" id="weight" placeholder="请输入体重">
+            </div>
+            
+            <!-- 计算按钮 -->
+            <button id="calculate">计算 BMI</button>
+            
+            <!-- 结果显示区域 -->
+            <div id="result" class="result"></div>
+
+        </div>
+
+
+        <!-- 健康知识区 -->
+        <section class="articles-section">
+
+            <h2>健康知识文章</h2> <!-- 二级标题 -->
+            <div id="articles-container" class="articles-grid"></div> <!-- 文章列表容器 -->
+
+        </section>
+
+
+        <!-- 文章详情区 -->
+        <div id="article-detail" class="article-detail">
+
+
+        </div>
+
+
+    </div>
+
+    <!-- 引入JavaScript，像给网页装大脑 -->
+    <script src="js/main.js"></script> 
+   
+</body>
+
+</html> 
