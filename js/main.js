@@ -1,3 +1,4 @@
+// 文章数据集合，存储多篇健康相关的文章
 const articles = [
     {
         title: "BMI指数的科学解读",
@@ -36,89 +37,67 @@ const articles = [
     },
 ];
 
-
-// BMI 计算模块
+// BMI 计算核心模块
 const BMICalculator = {
+
+    /**
+     * 计算BMI值
+     * @param {number} height - 身高（厘米）
+     * @param {number} weight - 体重（公斤）
+     * @returns {string} 保留1位小数的BMI值字符串
+     */
     calculate: (height, weight) => {
-        const heightInMeters = height / 100;
-        return (weight / (heightInMeters * heightInMeters)).toFixed(1);
+        // 单位转换：厘米 → 米
+        const heightInMeters = height / 100;  
+        // 计算BMI：体重除以身高的平方
+        const bmiValue = weight / (heightInMeters * heightInMeters);
+        // 格式化结果（保留1位小数）
+        return bmiValue.toFixed(1);
     },
+
+    /**
+     * 根据BMI值获取体重分类
+     * @param {number} bmi - BMI数值
+     * @returns {string} 体重状态中文描述
+     */
     getCategory: (bmi) => {
-        if (bmi < 18.5) return '体重过轻';
-        if (bmi < 24) return '体重正常';
-        if (bmi < 28) return '超重';
-        return '肥胖';
+        // 使用阶梯判断实现分类逻辑
+        if (bmi < 18.5) return '体重过轻';    // 营养不良风险
+        if (bmi < 24) return '体重正常';      // 健康理想范围
+        if (bmi < 28) return '超重';          // 需要关注体重
+        return '肥胖';                        // 存在健康风险
     }
 };
 
-
-
-const HealthAdvisor = {
-    async getAdvice(bmi, height, weight) {
-        const payload = {
-            model: "google/gemini-2.0-flash-lite-preview-02-05:free",
-            messages: [{
-                role: "user",
-                content: `你是一位资深营养师，请用中文为BMI ${bmi}（身高${height}cm，体重${weight}kg）的用户提供以下内容的专业建议：
-
-
-                1. 全面科学分析
-                2. 健康风险评估
-                3. 运动建议（有氧/无氧训练）
-                4. 饮食调整方案（营养均衡）
-                5. 若干注意事项
-
-
-                开头不要写"好的"，用Markdown格式，使用空行分离主次段落要点，重点要加粗，避免使用某些医疗建议术语，回答不能太机器要真实，1200字左右`
-            }]
-        };
-
-        try {
-            const response = await fetch(apiEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify(payload)
-            });
-
-            const data = await response.json();
-            if (!response.ok) {
-                console.error('API Error:', data);
-                return `请求失败，状态码：${response.status}`;
-            }
-            return data.choices[0].message.content;
-        } catch (error) {
-            console.error('请求错误:', error);
-            return '请求失败，请检查网络连接';
-        }
-    }
-};
-
-
-// 文章管理模块
+// 文章管理模块（待实现）
 const ArticleManager = {
     render: () => {
-        // 渲染文章
+        // 预留文章渲染功能
     }
 };
 
+// 页面加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
+    // 获取页面元素
     const calculateButton = document.getElementById('calculate');
     const heightInput = document.getElementById('height');
     const weightInput = document.getElementById('weight');
     const resultDiv = document.getElementById('result');
 
+    // 绑定计算按钮点击事件
     calculateButton.addEventListener('click', calculateBMI);
 
+    // 计算BMI的函数
     async function calculateBMI() {
+        // 禁用输入框，防止重复计算
         heightInput.disabled = true;
         weightInput.disabled = true;
 
+        // 获取输入值并转换为浮点数
         const height = parseFloat(heightInput.value);
         const weight = parseFloat(weightInput.value);
 
+        // 输入验证
         if (isNaN(height) || isNaN(weight) || height < 0 || height > 300 || weight < 0 || weight > 350) {
             resultDiv.innerHTML = '请输入有效值：<br>身高(0-300cm) 体重(0-350kg)';
             calculateButton.innerHTML = '重试';
@@ -128,76 +107,106 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const heightInMeters = height / 100;
-        const bmi = weight / (heightInMeters * heightInMeters);
-        const roundedBMI = bmi.toFixed(1);
+        // 计算BMI并获取分类
+        const roundedBMI = BMICalculator.calculate(height, weight);
+        const category = BMICalculator.getCategory(roundedBMI);
 
-        let category = '';
-        if (bmi < 18.5) {
-            category = '体重过轻';
-        } else if (bmi < 24) {
-            category = '体重正常';
-        } else if (bmi < 28) {
-            category = '超重';
-        } else {
-            category = '肥胖';
-        }
+        // 显示结果
+        resultDiv.innerHTML = `您的 BMI 为 : ${roundedBMI} (${category})<div class="loading">生成建议中..</div>`;
 
-
-        resultDiv.innerHTML = `您的 BMI 为 : ${roundedBMI} (${category})<div class="loading">\n生成建议中..</div>`;
-        
-        const advice = await HealthAdvisor.getAdvice(roundedBMI, height, weight);
-        resultDiv.innerHTML = `
-            <div class="bmi-result">${roundedBMI} (${category})</div>
-            <div class="health-advice">${marked.parse(advice)}</div>
-        `;
-
-        // 计算完成后修改按钮
+        // 修改按钮状态
         calculateButton.innerHTML = '重试';
         calculateButton.classList.add('retry-btn');
         calculateButton.removeEventListener('click', calculateBMI);
         calculateButton.addEventListener('click', resetCalculator);
     }
 
+    /**
+     * 重置计算器到初始状态
+     */
     function resetCalculator() {
+        // 清空输入框内容
         heightInput.value = '';
         weightInput.value = '';
-        heightInput.disabled = false;  // 新增：恢复身高输入
-        weightInput.disabled = false;  // 新增：恢复体重输入
+        
+        // 恢复输入框交互
+        heightInput.disabled = false;
+        weightInput.disabled = false;
+        
+        // 清空结果显示区域
         resultDiv.innerHTML = '';
+        
+        // 重置按钮状态
         calculateButton.innerHTML = '计算 BMI';
         calculateButton.classList.remove('retry-btn');
+        calculateButton.style.backgroundColor = '';
+        
+        // 切换事件监听器
         calculateButton.removeEventListener('click', resetCalculator);
         calculateButton.addEventListener('click', calculateBMI);
-
+        
+        // 重新渲染健康知识文章
         renderArticles();
+        
+        // 自动聚焦到身高输入框
+        heightInput.focus();
     }
 
+    /**
+     * 渲染健康知识文章列表
+     */
     function renderArticles() {
+        // 获取文章容器DOM元素
         const container = document.getElementById('articles-container');
-        container.innerHTML = articles.map(article => `
+        
+        // 生成文章卡片HTML
+        container.innerHTML = articles.map(
+            article => `
             <div class="article-card">
                 <h3 class="article-title">${article.title}</h3>
                 <p class="article-excerpt">${article.excerpt}</p>
                 <a href="#" class="read-more">更多</a>
-                <div class="article-content" style="display:none;">${article.content.replace(/\n/g, '<br>')}</div>
+                <div class="article-content" style="display:none;">
+                    ${article.content.replace(/\n/g, '<br>')}
+                </div>
             </div>
         `).join('');
 
-        // 新增：绑定文章点击事件
+        // 绑定文章交互事件
         document.querySelectorAll('.read-more').forEach(link => {
             link.addEventListener('click', function(e) {
-                e.preventDefault();
+                e.preventDefault(); // 阻止链接默认跳转行为
+                
+                // 获取相邻的内容区块
                 const content = this.nextElementSibling;
-                content.style.display = content.style.display === 'none' ? 'block' : 'none';
+                
+                // 切换显示状态
+                const isHidden = content.style.display === 'none';
+                content.style.display = isHidden ? 'block' : 'none';
+                
+                // 更新按钮文字
+                this.textContent = isHidden ? '收起' : '更多';
+            });
+        });
+
+        // 添加卡片悬停效果
+        document.querySelectorAll('.article-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+                card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'none';
+                card.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
             });
         });
     }
+    
     // 初始化时渲染文章
     renderArticles();
-}); 
+});
 
-// 新增：文章详情交互函数
+// 文章详情交互
 function showArticleDetail(content) {
     const detailDiv = document.getElementById('article-detail');
     detailDiv.innerHTML = `<div class="article-popup">
@@ -211,9 +220,9 @@ function showArticleDetail(content) {
 
 function hideArticleDetail() {
     document.getElementById('article-detail').style.display = 'none';
-} 
+}
 
-// 在renderArticles后添加Markdown解析器（原126-145行）
+// Markdown解析器
 const marked = {
     parse: (md) => {
         const replacements = [
