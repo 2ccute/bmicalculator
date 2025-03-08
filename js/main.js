@@ -390,7 +390,8 @@ function formatAIAdvice(content) {
     formattedContent = formattedContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     
     // 3. 处理列表项（改进的列表处理逻辑）
-    let listItemPattern = /- (.*?)(?:\n|$)/g;
+    // 更精确的列表项匹配模式，确保只匹配行首的破折号
+    let listItemPattern = /^- (.*?)(?:\n|$)/gm;
     let listMatches = formattedContent.match(listItemPattern);
     
     if (listMatches) {
