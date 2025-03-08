@@ -270,11 +270,12 @@ button:active{
 .ai-advice-container {
     background-color: #f0fff0; /* 修改为淡绿色背景 */
     border-radius: 12px;       /* 增加圆角 */
-    padding: 1.2rem;           /* 增加内边距 */
-    margin-top: 1rem;
-    line-height: 1.6;
+    padding: 1.5rem 2rem;      /* 增加内边距：上下1.5rem，左右2rem */
+    margin: 1.2rem 0;          /* 增加上下外边距 */
+    line-height: 1.3;          /* 增加行高，改善文本可读性 */
     box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* 添加轻微阴影 */
     border-left: 4px solid #2ee735de;       /* 添加左侧边框强调 */
+    letter-spacing: 0.02em;    /* 增加字母间距 */
 }
 
 
