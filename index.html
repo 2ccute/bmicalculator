@@ -2,69 +2,76 @@
 <html lang="zh">
 
 <head>
-    <!-- 基础元信息 -->
-    <meta charset="UTF-8">  <!-- 设置文档字符编码为UTF-8 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- 移动端视口适配 -->
-    <title>高级BMI计算器 | 体重指数工具 | 减脂增肌科学知识小站 （附有定制化建议）</title>  <!-- 页面标题 -->
-    <link rel="stylesheet" href="css/style.css">  <!-- 引入样式表 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/marked/5.1.1/marked.min.css">
+    <!-- 基础元信息：设置文档编码、视口和标题 -->
+    <meta charset="UTF-8">  <!-- 设置文档字符编码为UTF-8，确保正确显示中文 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- 移动端视口适配，确保响应式设计 -->
+    <title>高级BMI计算器 | 体重指数工具 | 减脂增肌科学知识小站 （附有定制化建议）</title>  <!-- SEO优化的页面标题 -->
+    <link rel="stylesheet" href="css/style.css">  <!-- 引入自定义样式表 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/marked/5.1.1/marked.min.css">  <!-- 引入Markdown渲染样式，用于文章内容格式化 -->
 </head>
 
 
 <body>
     
-    <div class="container"> <!-- 整个页面的大容器，像一个装东西的盒子 -->
+    <div class="container"> <!-- 页面主容器：包含所有内容的外层容器，控制整体宽度和居中 -->
 
 
-        <!-- 主标题 -->
-        <h1>在线BMI体重指数计算器</h1>
+        <!-- 主标题：页面顶部的大标题 -->
+        <h1>BMI体重指数计算器</h1>
         
 
-        <!-- 计算器主体部分 -->
+        <!-- 计算器主体部分：包含输入框、按钮和结果显示区域 -->
         <div class="calculator">
 
-            <!-- 身高输入组 -->
+            <!-- 身高输入组：包含标签和输入框 -->
             <div class="input-group">
-                <label for="height">身高 (cm):</label>
-                <input type="number" id="height" placeholder="请输入身高">
+                <label for="height">身高 (cm):</label>  <!-- 输入标签，使用for属性关联输入框 -->
+                <input type="number" id="height" placeholder="请输入身高">  <!-- 数字类型输入框，带有占位文本 -->
             </div>
             
-            <!-- 体重输入组 -->
+            <!-- 体重输入组：包含标签和输入框 -->
             <div class="input-group">
-                <label for="weight">体重 (kg):</label>
-                <input type="number" id="weight" placeholder="请输入体重">
+                <label for="weight">体重 (kg):</label>  <!-- 输入标签，使用for属性关联输入框 -->
+                <input type="number" id="weight" placeholder="请输入体重">  <!-- 数字类型输入框，带有占位文本 -->
             </div>
             
-            <!-- 计算按钮 -->
-            <button id="calculate">计算 BMI</button>
+            <!-- 计算按钮：触发BMI计算的交互元素 -->
+            <!-- 在计算按钮上添加ARIA标签 -->
+            <button id="calculate" aria-label="计算BMI指数">计算 BMI</button>
             
-            <!-- 结果显示区域 -->
+            <!-- 为加载状态添加ARIA属性 -->
+            <div class="loading" role="status" aria-live="polite">
+                <div class="loading-spinner" aria-hidden="true"></div>
+                正在获取高级智能建议…
+            </div>
+            
+            <!-- 结果显示区域：显示BMI计算结果和健康建议 -->
             <div id="result" class="result"></div>
 
         </div>
 
 
-        <!-- 健康知识区 -->
+        <!-- 健康知识区：显示相关健康文章的区域 -->
         <section class="articles-section">
 
-            <h2>健康知识文章</h2> <!-- 二级标题 -->
-            <div id="articles-container" class="articles-grid"></div> <!-- 文章列表容器 -->
+            <h2>健康知识文章</h2> <!-- 文章区域标题 -->
+            <div id="articles-container" class="articles-grid"></div> <!-- 文章列表容器，使用Grid布局 -->
 
         </section>
 
 
-        <!-- 文章详情区 -->
+        <!-- 文章详情区：用于显示文章详情的模态弹窗 -->
         <div id="article-detail" class="article-detail">
-
-
+            <!-- 内容由JavaScript动态生成 -->
         </div>
 
 
     </div>
 
-    <!-- 引入JavaScript，像给网页装大脑 -->
-    <script src="js/main.js"></script> 
+    <!-- JavaScript引入：添加交互功能 -->
+    <script src="js/scripts.js"></script>  <!-- 辅助脚本文件 -->
+    <script src="js/main.js"></script>  <!-- 主要功能脚本，包含BMI计算逻辑和文章渲染 -->
    
 </body>
 
-</html> 
+</html>
